@@ -1,10 +1,26 @@
 {
-  "$schema": "../gen/schemas/desktop-schema.json",
+  "$schema": "https://schema.tauri.app/config/2.0",
   "identifier": "default",
-  "description": "Capability for the main window",
+  "description": "Default capabilities for Mermaid GUI v2.0",
   "windows": ["main"],
   "permissions": [
     "core:default",
-    "opener:default"
+    "core:window:default",
+    "core:webview:default",
+    "core:path:default",
+    "core:event:default",
+    "shell:default",
+    "shell:allow-execute",
+    "shell:allow-open",
+    "dialog:default",
+    "dialog:allow-open",
+    "dialog:allow-save",
+    "fs:default",
+    "fs:allow-read-file",
+    "fs:allow-write-file",
+    "fs:allow-read-text-file",
+    "fs:allow-write-text-file",
+    "fs:allow-exists",
+    "fs:scope-temp"
   ]
 }
