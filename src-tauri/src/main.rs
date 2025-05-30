@@ -17,17 +17,16 @@ use services::{FileService, MmdcService};
 use std::env;
 
 fn main() {
-    // Initialize logging
     env_logger::init();
     
     log::info!("Starting Mermaid GUI v2.0...");
     log::info!("Platform: {} {}", env::consts::OS, env::consts::ARCH);
     
-    // Initialize services
     let mmdc_service = MmdcService::new();
     let file_service = FileService::new();
     
     tauri::Builder::default()
+        .plugin(tauri_plugin_dialog::init())
         .manage(MmdcServiceState::new(mmdc_service))
         .manage(FileServiceState::new(file_service))
         .invoke_handler(tauri::generate_handler![

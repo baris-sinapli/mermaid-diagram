@@ -15,12 +15,21 @@
     "dialog:default",
     "dialog:allow-open",
     "dialog:allow-save",
+    "dialog:allow-ask",
+    "dialog:allow-message",
+    "dialog:allow-confirm",
     "fs:default",
     "fs:allow-read-file",
     "fs:allow-write-file",
     "fs:allow-read-text-file",
     "fs:allow-write-text-file",
     "fs:allow-exists",
-    "fs:scope-temp"
+    "fs:allow-create",
+    "fs:allow-mkdir",
+    "fs:scope-temp",
+    "fs:scope-home",
+    "fs:scope-document",
+    "fs:scope-desktop",
+    "fs:scope-download"
   ]
 }
