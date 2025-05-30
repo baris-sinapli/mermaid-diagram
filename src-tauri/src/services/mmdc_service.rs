@@ -81,6 +81,9 @@ impl MmdcService {
         let mut cmd = Command::new(mmdc_path);
         cmd.arg("-i").arg("-").arg("-o").arg(output_path);
 
+        // Add format parameter
+        cmd.arg("-f").arg(options.format.to_string());
+
         // Add optional parameters
         if let Some(width) = options.width {
             if width > 0 {

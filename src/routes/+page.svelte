@@ -1,33 +1,64 @@
-<script lang="ts">
+<script>
   import { onMount } from 'svelte'
   import { invoke } from '@tauri-apps/api/core'
+  import { open, save } from '@tauri-apps/plugin-dialog'
+  import { writeTextFile, readTextFile } from '@tauri-apps/plugin-fs'
   
-  interface DiagramResult {
-    success: boolean
-    generation_time: number
-    output_path?: string
-    error_message?: string
-  }
+  // Type definitions
+  /** @typedef {Object} DiagramResult
+   * @property {boolean} success
+   * @property {string} [output_path]
+   * @property {string} [error_message]
+   * @property {number} generation_time
+   * @property {number} [file_size]
+   */
   
-  let mermaidCode: string = `graph TD
+  /** @typedef {Object} RecentFile
+   * @property {string} path
+   * @property {string} name
+   */
+  
+  /** @typedef {Object} FileOperationResult
+   * @property {boolean} success
+   * @property {string} [message]
+   */
+  
+  /** @typedef {Object} MermaidFile
+   * @property {string} content
+   * @property {string} path
+   * @property {string} name
+   */
+  
+  let mermaidCode = `graph TD
     A[Start] --> B(World)
     B --> C{Decision?}
     C -->|Yes| D[Result1]
     C -->|No| E[Result2]`
   
-  let outputFormat: string = 'png'
-  let outputWidth: string = '800'
-  let outputHeight: string = '600'
-  let backgroundColor: string = 'transparent'
-  let isGenerating: boolean = false
-  let lastResult: DiagramResult | null = null
-  let mmdc_status: string = 'Kontrol ediliyor...'
+  let outputFormat = 'png'
+  let outputWidth = '800'
+  let outputHeight = '600'
+  let backgroundColor = 'transparent'
+  let isGenerating = false
+  /** @type {DiagramResult | null} */
+  let lastResult = null
+  let mmdc_status = 'Kontrol ediliyor...'
   
+  // File management variables
+  /** @type {string | null} */
+  let currentFilePath = null
+  let hasUnsavedChanges = false
+  /** @type {RecentFile[]} */
+  let recentFiles = []
+  
+  /**
+   * @returns {Promise<void>}
+   */
   async function checkMmdc() {
     console.log('Checking mmdc...')
     try {
       const result = await invoke('check_mmdc')
-      mmdc_status = result as string
+      mmdc_status = /** @type {string} */ (result)
       console.log('mmdc status:', result)
     } catch (error) {
       mmdc_status = `❌ ${error}`
@@ -35,6 +66,9 @@
     }
   }
   
+  /**
+   * @returns {Promise<void>}
+   */
   async function generateDiagram() {
     if (!mermaidCode.trim()) {
       alert('Please enter Mermaid code!')
@@ -55,7 +89,7 @@
         }
       })
       
-      const result = await invoke('generate_diagram', {
+      const result = /** @type {DiagramResult} */ (await invoke('generate_diagram', {
         code: mermaidCode,
         options: {
           format: outputFormat,
@@ -63,15 +97,15 @@
           height: outputHeight ? parseInt(outputHeight) : null,
           background: backgroundColor
         }
-      })
+      }))
       
       console.log('Generate result:', result)
-      lastResult = result as DiagramResult
+      lastResult = result
       
-      if (lastResult.success) {
-        alert(`✅ Diagram generated successfully!\n📁 ${lastResult.output_path}\n⏱️ ${lastResult.generation_time}ms`)
+      if (result && result.success) {
+        alert(`✅ Diagram generated successfully!\n📁 ${result.output_path}\n⏱️ ${result.generation_time}ms`)
       } else {
-        alert(`❌ Error: ${lastResult.error_message}`)
+        alert(`❌ Error: ${result.error_message}`)
       }
     } catch (error) {
       console.error('Generate error:', error)
@@ -90,19 +124,174 @@
     }
   }
   
-  // Component yüklendiğinde mmdc'yi kontrol et
+  async function saveFile() {
+    try {
+      if (currentFilePath) {
+        // Save to existing file
+        const result = /** @type {FileOperationResult} */ (await invoke('write_mermaid_file', {
+          path: currentFilePath,
+          content: mermaidCode
+        }))
+        
+        if (result.success) {
+          hasUnsavedChanges = false
+          alert(`💾 File saved: ${currentFilePath}`)
+        } else {
+          alert(`❌ Save error: ${result.message}`)
+        }
+      } else {
+        // Save as new file
+        await saveAsFile()
+      }
+    } catch (error) {
+      alert(`❌ Save error: ${error}`)
+    }
+  }
+  
+  async function saveAsFile() {
+    try {
+      const filePath = await save({
+        filters: [
+          {
+            name: 'Mermaid Files',
+            extensions: ['mmd', 'mermaid']
+          },
+          {
+            name: 'All Files',
+            extensions: ['*']
+          }
+        ],
+        defaultPath: 'diagram.mmd'
+      })
+      
+      if (filePath) {
+        const result = /** @type {FileOperationResult} */ (await invoke('write_mermaid_file', {
+          path: filePath,
+          content: mermaidCode
+        }))
+        
+        if (result.success) {
+          currentFilePath = filePath
+          hasUnsavedChanges = false
+          await loadRecentFiles()
+          alert(`💾 File saved: ${filePath}`)
+        } else {
+          alert(`❌ Save error: ${result.message}`)
+        }
+      }
+    } catch (error) {
+      alert(`❌ Save error: ${error}`)
+    }
+  }
+  
+  async function openFile() {
+    try {
+      const filePath = await open({
+        filters: [
+          {
+            name: 'Mermaid Files',
+            extensions: ['mmd', 'mermaid', 'md']
+          },
+          {
+            name: 'All Files',
+            extensions: ['*']
+          }
+        ],
+        multiple: false
+      })
+      
+      if (filePath) {
+        const fileData = /** @type {MermaidFile} */ (await invoke('read_mermaid_file', {
+          path: filePath
+        }))
+        
+        mermaidCode = fileData.content
+        currentFilePath = filePath
+        hasUnsavedChanges = false
+        await loadRecentFiles()
+        alert(`📂 File loaded: ${filePath}`)
+      }
+    } catch (error) {
+      alert(`❌ Open error: ${error}`)
+    }
+  }
+  
+  async function newFile() {
+    if (hasUnsavedChanges) {
+      const shouldContinue = confirm('You have unsaved changes. Continue without saving?')
+      if (!shouldContinue) return
+    }
+    
+    mermaidCode = `graph TD
+    A[Start] --> B(End)`
+    currentFilePath = null
+    hasUnsavedChanges = false
+  }
+  
+  async function loadRecentFiles() {
+    try {
+      recentFiles = /** @type {RecentFile[]} */ (await invoke('get_recent_files'))
+    } catch (error) {
+      console.error('Failed to load recent files:', error)
+    }
+  }
+  
+  /**
+   * @param {string} filePath
+   */
+  async function openRecentFile(filePath) {
+    try {
+      const fileData = /** @type {MermaidFile} */ (await invoke('read_mermaid_file', {
+        path: filePath
+      }))
+      
+      mermaidCode = fileData.content
+      currentFilePath = filePath
+      hasUnsavedChanges = false
+      await loadRecentFiles()
+    } catch (error) {
+      alert(`❌ Error opening recent file: ${error}`)
+      // Remove from recent files if it doesn't exist
+      await loadRecentFiles()
+    }
+  }
+  
+  // Track changes
+  function onCodeChange() {
+    hasUnsavedChanges = true
+  }
+  
+  /**
+   * @param {KeyboardEvent} event
+   */
+  function handleKeydown(event) {
+    if (event.ctrlKey || event.metaKey) {
+      switch (event.key) {
+        case 'n':
+          event.preventDefault()
+          newFile()
+          break
+        case 'o':
+          event.preventDefault()
+          openFile()
+          break
+        case 's':
+          event.preventDefault()
+          saveFile()
+          break
+        case 'e':
+          event.preventDefault()
+          generateDiagram()
+          break
+      }
+    }
+  }
+  
   onMount(() => {
     console.log('Component mounted')
     checkMmdc()
+    loadRecentFiles()
   })
-  
-  // Keyboard shortcuts
-  function handleKeydown(event: KeyboardEvent) {
-    if (event.ctrlKey && event.key === 'e') {
-      event.preventDefault()
-      generateDiagram()
-    }
-  }
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
@@ -123,10 +312,50 @@
   <!-- Header -->
   <header class="header">
     <h1>🎨 Mermaid GUI v2.0</h1>
+    <div class="file-info">
+      {#if currentFilePath}
+        <span class="file-path" title={currentFilePath}>
+          📄 {currentFilePath.split('/').pop() || currentFilePath.split('\\').pop()}
+          {#if hasUnsavedChanges}
+            <span class="unsaved">*</span>
+          {/if}
+        </span>
+      {:else}
+        <span class="file-path">📄 Untitled{hasUnsavedChanges ? '*' : ''}</span>
+      {/if}
+    </div>
     <div class="status-info">
       SvelteKit + mmdc Integration ✅
     </div>
   </header>
+  
+  <!-- File Operations Bar -->
+  <div class="file-bar">
+    <div class="file-buttons">
+      <button on:click={newFile} title="Ctrl+N">📄 New</button>
+      <button on:click={openFile} title="Ctrl+O">📂 Open</button>
+      <button on:click={saveFile} title="Ctrl+S" class:unsaved={hasUnsavedChanges}>💾 Save</button>
+      <button on:click={saveAsFile}>💾 Save As</button>
+    </div>
+    
+    {#if recentFiles.length > 0}
+      <div class="recent-files">
+        <label>Recent:</label>
+        <select on:change={(e) => {
+          const target = /** @type {HTMLSelectElement} */ (e.target)
+          if (target.value) {
+            openRecentFile(target.value)
+            target.value = '' // Reset selection
+          }
+        }}>
+          <option value="">Select recent file...</option>
+          {#each recentFiles as file}
+            <option value={file.path}>{file.name}</option>
+          {/each}
+        </select>
+      </div>
+    {/if}
+  </div>
   
   <!-- Settings Bar -->
   <div class="settings-bar">
@@ -157,7 +386,7 @@
     
     {#if lastResult}
       <div class="result-info">
-        {#if lastResult.success}
+        {#if lastResult && lastResult.success}
           <span class="success">✅ {lastResult.generation_time}ms</span>
         {:else}
           <span class="error">❌ Error</span>
@@ -173,7 +402,8 @@
       <h3>📝 Mermaid Code:</h3>
       <textarea 
         bind:value={mermaidCode}
-        placeholder="Mermaid kodunuzu buraya yazin..."
+        on:input={onCodeChange}
+        placeholder="Enter your Mermaid code here..."
         spellcheck="false"
       ></textarea>
     </div>
@@ -214,7 +444,7 @@
               {isGenerating ? '⏳ Generating...' : '🚀 Generate Diagram'}
     </button>
     <span class="status">
-      SvelteKit + Tauri v2.0 | Ctrl+E: Generate | mmdc Integration Aktif
+      SvelteKit + Tauri v2.0 | Ctrl+N: New | Ctrl+O: Open | Ctrl+S: Save | Ctrl+E: Generate
     </span>
   </footer>
 </main>
@@ -289,12 +519,86 @@
     font-size: 1.5rem;
   }
   
+  .file-info {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .file-path {
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: #d4d4d4;
+  }
+  
+  .unsaved {
+    color: #ff6b6b;
+    font-weight: bold;
+  }
+  
   .status-info {
     background: #28a745;
     color: white;
     padding: 0.25rem 0.75rem;
     border-radius: 12px;
     font-size: 0.9rem;
+  }
+  
+  .file-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: #3c3c3c;
+    border-bottom: 1px solid #3e3e42;
+    gap: 1rem;
+  }
+  
+  .file-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .file-buttons button {
+    padding: 0.4rem 0.8rem;
+    background: #0e639c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.9rem;
+  }
+  
+  .file-buttons button:hover {
+    background: #1177bb;
+  }
+  
+  .file-buttons button.unsaved {
+    background: #ff6b6b;
+  }
+  
+  .file-buttons button.unsaved:hover {
+    background: #ff5252;
+  }
+  
+  .recent-files {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .recent-files label {
+    font-size: 0.9rem;
+    color: #d4d4d4;
+  }
+  
+  .recent-files select {
+    padding: 0.25rem 0.5rem;
+    background: #2d2d30;
+    color: white;
+    border: 1px solid #464647;
+    border-radius: 3px;
+    min-width: 200px;
   }
   
   .settings-bar {
