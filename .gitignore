@@ -8,3 +8,28 @@ node_modules
 !.env.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# TypeScript
+*.tsbuildinfo
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+
+# Runtime
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Temporary
+*.tmp
+*.temp

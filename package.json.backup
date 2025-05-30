@@ -9,13 +9,7 @@
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
-    "tauri": "tauri",
-    "type-check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "type-check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "tauri": "tauri"
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "^3.0.6",
