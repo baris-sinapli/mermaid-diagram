@@ -1,4 +1,4 @@
-use crate::utils::platform::{get_npm_binary_name, get_system_binary_paths, DefaultDirectories};
+use crate::utils::platform::get_npm_binary_name;
 use std::env;
 use std::path::PathBuf;
 use std::process::Command;
@@ -10,8 +10,8 @@ pub fn get_npm_global_path() -> Option<PathBuf> {
     
     if let Ok(output) = Command::new(npm_cmd).args(&["root", "-g"]).output() {
         if output.status.success() {
-            let output_str = String::from_utf8_lossy(&output.stdout);
-            let path_str = output_str.trim();
+            let path_lossy = String::from_utf8_lossy(&output.stdout);
+            let path_str = path_lossy.trim();
             let npm_root = PathBuf::from(path_str);
             let bin_path = npm_root.parent()?.join("bin");
             if bin_path.exists() {

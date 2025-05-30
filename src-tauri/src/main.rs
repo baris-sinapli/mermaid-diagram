@@ -7,12 +7,11 @@ mod services;
 mod utils;
 
 use commands::{
-    diagram::{check_mmdc, generate_diagram, generate_diagram_to_file, MmdcServiceState},
-    file_ops::{
-        clear_recent_files, find_mermaid_files_in_directory, get_file_info, get_recent_files,
-        read_mermaid_file, validate_file_path, write_mermaid_file, FileServiceState,
-    },
-    system::{get_default_directories, get_environment_variable, get_system_info, greet, list_environment_variables, open_file_location},
+    check_mmdc, generate_diagram, generate_diagram_to_file, MmdcServiceState,
+    clear_recent_files, find_mermaid_files_in_directory, get_file_info, get_recent_files,
+    read_mermaid_file, validate_file_path, write_mermaid_file, FileServiceState,
+    get_default_directories, get_environment_variable, get_system_info, greet, 
+    list_environment_variables, open_file_location,
 };
 use services::{FileService, MmdcService};
 use std::env;
