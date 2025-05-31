@@ -7,7 +7,7 @@ mod services;
 mod utils;
 
 use commands::{
-    check_mmdc, generate_diagram, generate_diagram_to_file, MmdcServiceState,
+    check_mmdc, generate_diagram, generate_diagram_to_file, generate_preview_svg, MmdcServiceState,
     clear_recent_files, find_mermaid_files_in_directory, get_file_info, get_recent_files,
     read_mermaid_file, validate_file_path, write_mermaid_file, FileServiceState,
     get_default_directories, get_environment_variable, get_system_info, greet, 
@@ -41,6 +41,7 @@ fn main() {
             check_mmdc,
             generate_diagram,
             generate_diagram_to_file,
+            generate_preview_svg,
             // File operation commands
             read_mermaid_file,
             write_mermaid_file,

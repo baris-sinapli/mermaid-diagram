@@ -1,4 +1,4 @@
-use crate::models::{DiagramOptions, DiagramResult};
+use crate::models::{DiagramOptions, DiagramResult, DiagramFormat};
 use crate::services::MmdcService;
 use crate::utils::path::{generate_output_path, ensure_directory_exists};
 use std::sync::Mutex;
@@ -71,4 +71,49 @@ pub async fn generate_diagram_to_file(
     
     let mut service = service.lock().unwrap();
     Ok(service.generate_diagram(&code, &options, &output_path))
+}
+
+#[command]
+pub async fn generate_preview_svg(
+    code: String,
+    service: State<'_, MmdcServiceState>,
+) -> Result<String, String> {
+    // Kod boş mu kontrol et
+    if code.trim().is_empty() {
+        return Err("Empty mermaid code provided".to_string());
+    }
+    
+    let mut service = service.lock().unwrap();
+    
+    let options = DiagramOptions {
+        format: DiagramFormat::Svg,
+        width: Some(800),
+        height: Some(600),
+        background: "transparent".to_string(),
+        theme: Some("default".to_string()),
+    };
+    
+    let output_dir = std::env::temp_dir();
+    let output_path = output_dir.join(format!("preview_{}.svg", 
+        std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_millis()
+    ));
+    
+    let result = service.generate_diagram(&code, &options, &output_path);
+    
+    if result.success {
+        // SVG içeriğini oku ve döndür
+        match std::fs::read_to_string(&output_path) {
+            Ok(svg_content) => {
+                // Temp dosyayı temizle
+                let _ = std::fs::remove_file(&output_path);
+                Ok(svg_content)
+            }
+            Err(e) => Err(format!("Failed to read SVG: {}", e))
+        }
+    } else {
+        Err(result.error_message.unwrap_or("Unknown error".to_string()))
+    }
 }

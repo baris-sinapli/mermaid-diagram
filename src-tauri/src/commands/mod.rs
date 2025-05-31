@@ -3,7 +3,7 @@ pub mod file_ops;
 pub mod system;
 
 // Re-export specific items we actually use
-pub use diagram::{check_mmdc, generate_diagram, generate_diagram_to_file, MmdcServiceState};
+pub use diagram::{check_mmdc, generate_diagram, generate_diagram_to_file, MmdcServiceState, generate_preview_svg};
 pub use file_ops::{
     clear_recent_files, find_mermaid_files_in_directory, get_file_info, get_recent_files,
     read_mermaid_file, validate_file_path, write_mermaid_file, FileServiceState,

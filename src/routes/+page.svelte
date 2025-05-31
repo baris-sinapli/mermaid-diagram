@@ -14,9 +14,12 @@
   import { fileService } from '$lib/services/file-service'
   import { diagramService } from '$lib/services/diagram-service'
   import { ErrorService } from '$lib/services/error-service'
+  import { previewService } from '$lib/services/preview-service'
   
   onMount(async () => {
     // Initialize services
+    previewService
+    
     await ErrorService.withErrorHandling(
       () => fileService.initialize(),
       'File service initialization'
