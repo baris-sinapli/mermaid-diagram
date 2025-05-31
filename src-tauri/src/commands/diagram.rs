@@ -96,7 +96,7 @@ pub async fn generate_preview_svg(
         width: Some(800),
         height: Some(600),
         background: background.to_string(),
-        theme: Some("dark".to_string()),
+        theme: theme.clone(),
     };
     
     let output_dir = std::env::temp_dir();
