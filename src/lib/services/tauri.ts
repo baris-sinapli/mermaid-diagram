@@ -9,14 +9,14 @@ import type {
 } from '$lib/types';
 
 class TauriService implements TauriCommands {
-  async generate_preview_svg(code: string): Promise<string> {
+  async generate_preview_svg(code: string, theme?: string): Promise<string> {
     try {
-      return await invoke('generate_preview_svg', { code })
+      return await invoke('generate_preview_svg', { code, theme })
     } catch (error) {
       throw new Error(`Failed to generate preview: ${error}`)
     }
   }
-  
+
   async generate_diagram(code: string, options: DiagramOptions): Promise<DiagramResult> {
     try {
       return await invoke('generate_diagram', { code, options });

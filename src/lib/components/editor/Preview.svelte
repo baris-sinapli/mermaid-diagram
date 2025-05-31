@@ -1,6 +1,7 @@
 <script lang="ts">
   import { editorStore } from '$lib/stores/editor'
   import { onMount } from 'svelte'
+  import { previewService } from '$lib/services/preview-service';
   
   $: ({ previewSvg, isGenerating, lastError } = $editorStore)
   
@@ -10,6 +11,10 @@
   let panY = 0
   let isDragging = false
   
+  function handleManualRefresh() {
+    previewService.triggerPreview()
+  }
+
   function handleZoomIn() {
     zoomLevel = Math.min(zoomLevel * 1.2, 3)
     updateTransform()
@@ -84,9 +89,10 @@
   <div class="preview-header">
     <h3>👁️ Live Preview</h3>
     <div class="preview-controls">
+      <button class="control-btn" on:click={handleManualRefresh} title="Refresh preview">🔃</button>
       <button class="control-btn" on:click={handleZoomIn} title="Zoom in">🔍+</button>
       <button class="control-btn" on:click={handleZoomOut} title="Zoom out">🔍-</button>
-      <button class="control-btn" on:click={handleResetZoom} title="Reset zoom">↺</button>
+      <button class="control-btn" on:click={handleResetZoom} title="Reset zoom">🔄</button>
       <span class="zoom-level">{Math.round(zoomLevel * 100)}%</span>
     </div>
   </div>

@@ -1,13 +1,15 @@
 import { debounce } from '$lib/utils/debounce'
 import { tauriService } from './tauri'
 import { editorStore } from '$lib/stores/editor'
+import { appStore } from '$lib/stores/app'
 import { get } from 'svelte/store'
 
 export class PreviewService {
   private previewCache = new Map<string, string>()
+  private currentRequest: AbortController | null = null
+  private isGenerating = false
   
   constructor() {
-    // Monaco'dan kod değişikliklerini dinle
     editorStore.subscribe(({ code }) => {
       this.debouncedPreview(code)
     })
@@ -15,53 +17,92 @@ export class PreviewService {
   
   private debouncedPreview = debounce(async (code: string) => {
     await this.generatePreview(code)
-  }, 500)
+  }, 1000) // 1 saniyelik debounce süresi
   
   async generatePreview(code: string): Promise<void> {
+    if (!this.isValidForPreview(code)) {
+      return
+    }
+    
+    if (this.currentRequest) {
+      this.currentRequest.abort()
+    }
+    this.currentRequest = new AbortController()
+    
+    if (this.isGenerating) {
+      return
+    }
+    
     if (!code.trim()) {
       editorStore.setPreview('')
       editorStore.setError(null)
       return
     }
     
-    // Cache check
     const cacheKey = this.getCacheKey(code)
     if (this.previewCache.has(cacheKey)) {
       editorStore.setPreview(this.previewCache.get(cacheKey)!)
+      editorStore.setError(null)
       return
     }
     
+    this.isGenerating = true
     editorStore.setGenerating(true)
     editorStore.setError(null)
     
     try {
-        const svgContent = await tauriService.generate_preview_svg(code)
-        this.previewCache.set(cacheKey, svgContent)
-        editorStore.setPreview(svgContent)
+      const { currentTheme } = get(appStore) 
+      const svgContent = await tauriService.generate_preview_svg(code, currentTheme)
+      
+      if (this.currentRequest?.signal.aborted) {
+        return
+      }
+      
+      this.previewCache.set(cacheKey, svgContent)
+      editorStore.setPreview(svgContent)
+      editorStore.setError(null)
+      
     } catch (error) {
-        editorStore.setError(`Preview error: ${error}`)
+      if (!this.currentRequest?.signal.aborted) {
+        editorStore.setError(`${error}`)
+      }
     } finally {
-        editorStore.setGenerating(false)
+      this.isGenerating = false
+      editorStore.setGenerating(false)
     }
   }
-  
-  private async readSvgFile(path: string): Promise<string> {
-    return await tauriService.generate_preview_svg(get(editorStore).code)
-  }
-  
+
   private getCacheKey(code: string): string {
-    // Simple hash for caching
-    let hash = 0
-    for (let i = 0; i < code.length; i++) {
-      const char = code.charCodeAt(i)
-      hash = ((hash << 5) - hash) + char
-      hash = hash & hash // Convert to 32-bit integer
+    return code.trim()
+  }
+
+  private isValidForPreview(code: string): boolean {
+    const trimmed = code.trim()
+    
+    const hasValidStart = /^(graph|flowchart|sequenceDiagram|classDiagram|pie|gitgraph|gantt)/m.test(trimmed)
+    if (!hasValidStart) return false
+    
+    const lines = trimmed.split('\n').filter(line => line.trim().length > 0)
+    if (lines.length < 2) return false
+    
+    const incompletePatterns = [
+      /--$/,           // Arrow yarıda
+      /\w+\s*$/,       // Kelime yarıda
+      /\[\s*$/,        // Bracket açık
+      /\(\s*$/,        // Paren açık
+      /\{\s*$/,        // Brace açık
+    ]
+    
+    for (const pattern of incompletePatterns) {
+      if (pattern.test(trimmed)) return false
     }
-    return hash.toString()
+    
+    return true
   }
   
-  clearCache(): void {
-    this.previewCache.clear()
+  triggerPreview(): void {
+    const { code } = get(editorStore)
+    this.generatePreview(code)
   }
 }
 

@@ -76,21 +76,27 @@ pub async fn generate_diagram_to_file(
 #[command]
 pub async fn generate_preview_svg(
     code: String,
+    theme: Option<String>,
     service: State<'_, MmdcServiceState>,
 ) -> Result<String, String> {
-    // Kod boş mu kontrol et
     if code.trim().is_empty() {
         return Err("Empty mermaid code provided".to_string());
     }
     
     let mut service = service.lock().unwrap();
     
+    let background = match theme.as_deref() {
+        Some("dark") => "#0f0f23",
+        Some("light") => "#ffffff",
+        _ => "transparent"
+    };
+
     let options = DiagramOptions {
         format: DiagramFormat::Svg,
         width: Some(800),
         height: Some(600),
-        background: "transparent".to_string(),
-        theme: Some("default".to_string()),
+        background: background.to_string(),
+        theme: Some("dark".to_string()),
     };
     
     let output_dir = std::env::temp_dir();
@@ -104,10 +110,12 @@ pub async fn generate_preview_svg(
     let result = service.generate_diagram(&code, &options, &output_path);
     
     if result.success {
-        // SVG içeriğini oku ve döndür
         match std::fs::read_to_string(&output_path) {
-            Ok(svg_content) => {
-                // Temp dosyayı temizle
+            Ok(mut svg_content) => {
+                if theme.as_deref() == Some("dark") {
+                    svg_content = svg_content.replace("<svg", &format!("<svg style=\"background-color: {}\"", background));
+                }
+
                 let _ = std::fs::remove_file(&output_path);
                 Ok(svg_content)
             }
