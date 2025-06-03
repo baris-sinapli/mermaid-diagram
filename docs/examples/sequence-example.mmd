@@ -1,0 +1,42 @@
+%% Example 1: User authentication process
+%% Shows how a login request flows through frontend and backend
+sequenceDiagram
+    participant User
+    participant Browser
+    participant Server
+
+    %% User interacts with frontend
+    User->>Browser: Enter credentials
+    %% Sends login request
+    Browser->>Server: POST /login
+    %% Backend checks data
+    Server->>Server: Verify credentials
+    %% If credentials are correct
+    alt Success
+        %% Backend responds with token
+        Server-->>Browser: 200 OK + token
+        %% UI transition to dashboard
+        Browser-->>User: Show dashboard
+    %% If credentials are wrong
+    else Failure
+        %% Error returned
+        Server-->>Browser: 401 Unauthorized
+        %% Show error in UI
+        Browser-->>User: Show error message
+    end
+
+%% Example 2: API Request/Response cycle
+%% Demonstrates how client accesses backend data via API
+sequenceDiagram
+    participant Client
+    participant API Gateway
+    participant Service
+
+    %% Client makes request to gateway
+    Client->>API Gateway: GET /data
+    %% Gateway forwards it to microservice
+    API Gateway->>Service: Forward request
+    %% Service processes and replies
+    Service-->>API Gateway: Return data
+    %% Final response to client
+    API Gateway-->>Client: Response with data
