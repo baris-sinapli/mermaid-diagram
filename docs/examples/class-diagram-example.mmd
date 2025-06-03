@@ -1,0 +1,64 @@
+%% Example 1: Basic User class structure in a web app
+%% Represents authentication-related classes
+classDiagram
+    class User {
+        %% Public attribute: user name
+        +String username
+        %% Public attribute: user email
+        +String email
+        %% Public attribute: password hash
+        +String password
+        %% Public method: user login
+        +login()
+        %% Public method: user logout
+        +logout()
+    }
+
+    class Session {
+        %% Token used for session authentication
+        +String token
+        %% When the session expires
+        +DateTime expiry
+        %% Validates the session token
+        +validate()
+    }
+
+    %% User maintains a session
+    User --> Session : has
+
+%% Example 2: E-commerce Product System
+%% Represents relationships between Customer, Order, and Product
+classDiagram
+    class Product {
+        %% Product name
+        +String name
+        %% Cost of the product
+        +float price
+        %% Available stock count
+        +int stock
+        %% Method to apply discounts
+        +applyDiscount()
+    }
+
+    class Order {
+        %% List of products
+        +List~Product~ items
+        %% Total order cost
+        +float total
+        %% Confirms and places the order
+        +placeOrder()
+    }
+
+    class Customer {
+        %% Customer full name
+        +String name
+        %% Customer contact email
+        +String email
+        %% Adds a product to cart
+        +addToCart(Product)
+    }
+
+    %% Customer places an order
+    Customer --> Order : places
+    %% Orders contain products
+    Order --> Product : contains
