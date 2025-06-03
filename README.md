@@ -200,7 +200,7 @@ mermaid-gui-v2/
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+We welcome contributions! Please see our [Contributing Guide](docs/CONTRIBUTING.md) for details.
 
 ### Development Setup
 
@@ -217,7 +217,7 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 2. **Clone and setup**:
    ```bash
    git clone https://github.com/baris-sinapli/mermaid-diagram.git
-   cd mermaid-gui-v2
+   cd mermaid-diagram
    npm install
    ```
 
