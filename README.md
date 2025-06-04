@@ -101,15 +101,19 @@ npm run tauri build
 3. **Watch the preview** update in real-time on the right
 4. **Generate diagrams** with `Ctrl+E` or the Generate button
 
-### Keyboard Shortcuts
+### ⌨️ Keyboard Shortcuts
 
-| Shortcut | Action |
-|----------|--------|
-| `Ctrl+N` | New file |
-| `Ctrl+O` | Open file |
-| `Ctrl+S` | Save file |
-| `Ctrl+E` | Generate diagram |
-| `Ctrl+F` | Find & replace |
+Boost your productivity with these essential keyboard shortcuts:
+
+| Shortcut | Action | Description |
+|----------|--------|-------------|
+| `Ctrl+N` | 📄 New file | Create a new Mermaid diagram |
+| `Ctrl+O` | 📂 Open file | Open an existing `.mmd` file |
+| `Ctrl+S` | 💾 Save file | Save current diagram to file |
+| `Ctrl+E` | 🚀 Generate | Export diagram to image format |
+| `Ctrl+F` | 🔍 Find & Replace | Search and replace in editor |
+
+> **💡 Pro Tip**: All shortcuts work in both the editor and preview panes for seamless workflow!
 
 ### Supported Diagram Types
 
