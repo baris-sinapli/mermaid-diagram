@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mermaid GUI v2.0 - Professional Diagram Editor</title>
+    <meta name="description" content="Privacy-first, offline-capable Mermaid diagram generator with modern interface and real-time preview">
+    <meta name="keywords" content="mermaid, diagram, flowchart, offline, desktop, editor, privacy">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://baris-sinapli.github.io/mermaid-diagram/">
+    <meta property="og:title" content="Mermaid GUI v2.0 - Professional Diagram Editor">
+    <meta property="og:description" content="Privacy-first, offline-capable Mermaid diagram generator">
+    <meta property="og:image" content="assets/social-preview.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://baris-sinapli.github.io/mermaid-diagram/">
+    <meta property="twitter:title" content="Mermaid GUI v2.0">
+    <meta property="twitter:description" content="Privacy-first, offline-capable Mermaid diagram generator">
+    <meta property="twitter:image" content="assets/social-preview.png">
+
+    <link rel="icon" href="assets/favicon.png">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Hero Section -->
+    <header class="hero">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="logo">
+                    <img src="assets/logo.svg" alt="Mermaid GUI" width="32" height="32">
+                    <span>Mermaid GUI v2.0</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#download">Download</a>
+                    <a href="#docs">Docs</a>
+                    <a href="https://github.com/baris-sinapli/mermaid-diagram" target="_blank">GitHub</a>
+                </div>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <span class="sun">☀️</span>
+                    <span class="moon">🌙</span>
+                </button>
+            </div>
+        </nav>
+
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Professional Mermaid Diagram Editor</h1>
+                <p class="hero-subtitle">Privacy-first, offline-capable desktop application with real-time preview, Monaco editor, and powerful batch processing.</p>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="github-stars">---</span>
+                        <span class="stat-label">GitHub Stars</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="download-count">---</span>
+                        <span class="stat-label">Downloads</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Privacy</span>
+                    </div>
+                </div>
+
+                <div class="hero-actions">
+                    <a href="#download" class="btn btn-primary">
+                        <span>⬇️ Download Now</span>
+                    </a>
+                    <a href="#demo" class="btn btn-secondary">
+                        <span>🎮 Live Demo</span>
+                    </a>
+                    <a href="https://github.com/baris-sinapli/mermaid-diagram" class="btn btn-outline" target="_blank">
+                        <span>⭐ Star on GitHub</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hero-image">
+                <div class="app-preview">
+                    <div class="app-window">
+                        <div class="titlebar">
+                            <div class="traffic-lights">
+                                <span class="light red"></span>
+                                <span class="light yellow"></span>
+                                <span class="light green"></span>
+                            </div>
+                            <span class="window-title">Mermaid GUI v2.0</span>
+                        </div>
+                        <div class="app-content">
+                            <img src="assets/app-screenshot.png" alt="Mermaid GUI Interface" loading="eager">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Why Choose Mermaid GUI v2.0?</h2>
+            <p class="section-subtitle">Built for developers who value privacy, performance, and professional workflow.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Privacy First</h3>
+                    <p>100% offline operation. No data collection, no telemetry, no cloud dependencies. Your diagrams stay on your machine.</p>
+                    <ul>
+                        <li>✅ Zero network requests</li>
+                        <li>✅ Local file processing</li>
+                        <li>✅ No user tracking</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>High Performance</h3>
+                    <p>Native desktop performance with Tauri + Rust backend. Real-time preview without lag.</p>
+                    <ul>
+                        <li>✅ Sub-second startup</li>
+                        <li>✅ Real-time preview</li>
+                        <li>✅ Batch processing</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Modern Interface</h3>
+                    <p>Monaco editor with syntax highlighting, split-panel layout, and professional dark/light themes.</p>
+                    <ul>
+                        <li>✅ VS Code-quality editor</li>
+                        <li>✅ Resizable panels</li>
+                        <li>✅ Beautiful themes</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Developer Friendly</h3>
+                    <p>Keyboard shortcuts, CLI integration, and extensible architecture for power users.</p>
+                    <ul>
+                        <li>✅ Vim-like shortcuts</li>
+                        <li>✅ CLI tools</li>
+                        <li>✅ Plugin system</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📁</div>
+                    <h3>File Management</h3>
+                    <p>Smart file operations with recent files, auto-save, and project workspace support.</p>
+                    <ul>
+                        <li>✅ Recent files</li>
+                        <li>✅ Auto-save</li>
+                        <li>✅ Workspace support</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Export Power</h3>
+                    <p>Multiple export formats (PNG, SVG, PDF, JPG) with batch processing for large projects.</p>
+                    <ul>
+                        <li>✅ 4 export formats</li>
+                        <li>✅ Batch processing</li>
+                        <li>✅ Custom sizing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="download">
+        <div class="container">
+            <h2>Download Mermaid GUI v2.0</h2>
+            <p class="section-subtitle">Available for Windows, macOS, and Linux. Free and open source.</p>
+            
+            <div class="download-grid">
+                <div class="download-card">
+                    <div class="platform-icon">🪟</div>
+                    <h3>Windows</h3>
+                    <p>Windows 10+ (x64)</p>
+                    <div class="download-options">
+                        <a href="https://github.com/baris-sinapli/mermaid-diagram/releases/latest/download/mermaid-gui-v2_x64.msi" class="btn btn-primary">
+                            Download .msi
+                        </a>
+                        <div class="download-info">
+                            <span>45 MB • Installer</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="download-card">
+                    <div class="platform-icon">🍎</div>
+                    <h3>macOS</h3>
+                    <p>macOS 10.15+ (Intel/Apple Silicon)</p>
+                    <div class="download-options">
+                        <a href="https://github.com/baris-sinapli/mermaid-diagram/releases/latest/download/mermaid-gui-v2_universal.dmg" class="btn btn-primary">
+                            Download .dmg
+                        </a>
+                        <div class="download-info">
+                            <span>35 MB • Universal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="download-card">
+                    <div class="platform-icon">🐧</div>
+                    <h3>Linux</h3>
+                    <p>Ubuntu 20.04+ / Fedora 35+ / Arch</p>
+                    <div class="download-options">
+                        <a href="https://github.com/baris-sinapli/mermaid-diagram/releases/latest/download/mermaid-gui-v2_amd64.deb" class="btn btn-primary">
+                            Download .deb
+                        </a>
+                        <a href="https://github.com/baris-sinapli/mermaid-diagram/releases/latest/download/mermaid-gui-v2_x86_64.rpm" class="btn btn-outline">
+                            Download .rpm
+                        </a>
+                        <div class="download-info">
+                            <span>38 MB • Multiple formats</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="installation-note">
+                <h4>📋 Before Installing</h4>
+                <p>Mermaid GUI requires <strong>Mermaid CLI</strong> for diagram generation:</p>
+                <div class="code-block">
+                    <code>npm install -g @mermaid-js/mermaid-cli</code>
+                    <button class="copy-btn" onclick="copyToClipboard('npm install -g @mermaid-js/mermaid-cli')">Copy</button>
+                </div>
+                <p>Need Node.js? <a href="https://nodejs.org/" target="_blank">Download Node.js →</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Start Section -->
+    <section class="quick-start">
+        <div class="container">
+            <h2>Quick Start Guide</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Install Dependencies</h3>
+                        <p>Install Node.js and Mermaid CLI</p>
+                        <div class="code-block">
+                            <code>npm install -g @mermaid-js/mermaid-cli</code>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Download & Install</h3>
+                        <p>Get the appropriate version for your OS and install</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Start Creating</h3>
+                        <p>Launch the app and start creating beautiful diagrams</p>
+                        <div class="code-block">
+                            <code>graph TD<br>    A[Start] --> B[Create Diagram]<br>    B --> C{Beautiful?}<br>    C -->|Yes| D[Export & Share]</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Mermaid GUI v2.0</h4>
+                    <p>Professional diagram editor for developers</p>
+                    <div class="social-links">
+                        <a href="https://github.com/baris-sinapli/mermaid-diagram" target="_blank" aria-label="GitHub">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Download</h4>
+                    <ul>
+                        <li><a href="#download">Windows</a></li>
+                        <li><a href="#download">macOS</a></li>
+                        <li><a href="#download">Linux</a></li>
+                        <li><a href="https://github.com/baris-sinapli/mermaid-diagram/releases" target="_blank">All Releases</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Documentation</h4>
+                    <ul>
+                        <li><a href="https://github.com/baris-sinapli/mermaid-diagram#readme" target="_blank">User Guide</a></li>
+                        <li><a href="https://github.com/baris-sinapli/mermaid-diagram/blob/main/docs/CONTRIBUTING.md" target="_blank">Contributing</a></li>
+                        <li><a href="https://github.com/baris-sinapli/mermaid-diagram/issues" target="_blank">Bug Reports</a></li>
+                        <li><a href="https://mermaid.js.org/" target="_blank">Mermaid Docs</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Community</h4>
+                    <ul>
+                        <li><a href="https://github.com/baris-sinapli/mermaid-diagram/discussions" target="_blank">Discussions</a></li>
+                        <li><a href="https://github.com/baris-sinapli/mermaid-diagram/issues" target="_blank">Issues</a></li>
+                        <li><a href="https://github.com/baris-sinapli/mermaid-diagram/blob/main/docs/CONTRIBUTORS.md" target="_blank">Contributors</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Mermaid GUI v2.0. Licensed under <a href="https://github.com/baris-sinapli/mermaid-diagram/blob/main/LICENSE" target="_blank">GPL-3.0</a></p>
+                <p>Made with ❤️ by <a href="https://github.com/baris-sinapli" target="_blank">baris-sinapli</a> and the open source community</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/script.js"></script>
+</body>
+</html>
