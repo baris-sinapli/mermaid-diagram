@@ -42,6 +42,7 @@ vite.config.ts.timestamp-*
 
 # VS Code
 .vscode/settings.json
+*.code-workspace
 
 # JetBrains IDEs (e.g., WebStorm, IntelliJ)
 .idea/
