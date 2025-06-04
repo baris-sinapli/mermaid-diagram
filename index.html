@@ -35,7 +35,31 @@
         rel="stylesheet">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        /* Critical CSS for immediate load */
+        [data-theme="dark"] {
+            --background: #0f172a;
+            --foreground: #f8fafc;
+            --border: #334155;
+            --primary: #0078d4;
+        }
+
+        .loading-indicator {
+            position: fixed;
+            inset: 0;
+            background: var(--background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+    </style>
+    <link rel="stylesheet" href="assets/style.css?v=2024011">
 
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -1417,7 +1441,7 @@
         </button>
     </footer>
 
-    <script src="assets/script.js"></script>
+    <script src="assets/script.js?v=2024011"></script>
 </body>
 
 </html>

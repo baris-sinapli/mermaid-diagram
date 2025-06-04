@@ -1,4 +1,42 @@
-// Enhanced Professional Mermaid GUI v2.0 JavaScript
+(function() {
+  console.log('🌊 Mermaid GUI Debug: Script loading started');
+  
+  window.debugMermaidGUI = {
+    checkElements: function() {
+      const elements = {
+        'theme-toggle': document.getElementById('theme-toggle'),
+        'mobile-menu-toggle': document.getElementById('mobile-menu-toggle'),
+        'nav-menu': document.getElementById('nav-menu'),
+        'loading-indicator': document.getElementById('loading-indicator')
+      };
+      
+      console.log('🔍 Element check:', elements);
+      return elements;
+    },
+    
+    checkCSS: function() {
+      const styles = getComputedStyle(document.documentElement);
+      console.log('🎨 CSS Variables:', {
+        background: styles.getPropertyValue('--background'),
+        primary: styles.getPropertyValue('--primary'),
+        border: styles.getPropertyValue('--border')
+      });
+    },
+    
+    forceTheme: function(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      console.log('🎭 Theme forced to:', theme);
+    }
+  };
+  
+  // Auto-check on load
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      window.debugMermaidGUI.checkElements();
+      window.debugMermaidGUI.checkCSS();
+    }, 1000);
+  });
+})();
 
 // Configuration
 const CONFIG = {
@@ -1259,13 +1297,68 @@ class PlatformDetector {
   }
 }
 
-// Update main application initialization
-// In MermaidGUIWebsite class, update the init() method to include:
+// Ensure all modules are properly initialized
+document.addEventListener('DOMContentLoaded', () => {
+  // Double check initialization
+  if (typeof MermaidGUIWebsite === 'undefined') {
+    console.error('MermaidGUIWebsite not loaded properly');
+    // Fallback basic functionality
+    initializeFallback();
+  }
+});
 
-// Add these lines to MermaidGUIWebsite.init() method:
-/*
-this.modules.backToTop = new BackToTopManager();
-this.modules.interactiveDemo = new InteractiveDemoManager();
-this.modules.communityStats = new CommunityStatsManager();
-this.modules.platformDetector = new PlatformDetector();
-*/
+function initializeFallback() {
+  // Basic theme toggle
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    });
+  }
+
+  // Basic mobile menu
+  const mobileToggle = document.getElementById('mobile-menu-toggle');
+  const navMenu = document.getElementById('nav-menu');
+  if (mobileToggle && navMenu) {
+    mobileToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('mobile-open');
+      mobileToggle.classList.toggle('active');
+    });
+  }
+
+  // Basic FAQ functionality
+  document.querySelectorAll('.faq-question').forEach(question => {
+    question.addEventListener('click', () => {
+      const item = question.parentElement;
+      const answer = item.querySelector('.faq-answer');
+      const isExpanded = question.getAttribute('aria-expanded') === 'true';
+      
+      // Close others
+      document.querySelectorAll('.faq-item').forEach(otherItem => {
+        if (otherItem !== item) {
+          const otherQuestion = otherItem.querySelector('.faq-question');
+          const otherAnswer = otherItem.querySelector('.faq-answer');
+          otherQuestion.setAttribute('aria-expanded', 'false');
+          otherAnswer.style.maxHeight = null;
+          otherItem.classList.remove('active');
+        }
+      });
+      
+      // Toggle current
+      if (isExpanded) {
+        question.setAttribute('aria-expanded', 'false');
+        answer.style.maxHeight = null;
+        item.classList.remove('active');
+      } else {
+        question.setAttribute('aria-expanded', 'true');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        item.classList.add('active');
+      }
+    });
+  });
+
+  console.log('Fallback initialization complete');
+}
