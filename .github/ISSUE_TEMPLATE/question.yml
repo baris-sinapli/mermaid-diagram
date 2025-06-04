@@ -1,0 +1,140 @@
+name: ❓ Question
+description: Ask a question about Mermaid GUI v2.0
+title: "[QUESTION] "
+labels: ["question", "needs-triage"]
+assignees: ["baris-sinapli"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for your question! ❓
+        
+        We're here to help you get the most out of Mermaid GUI v2.0.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm you have completed the following
+      options:
+        - label: I have searched existing issues and discussions
+          required: true
+        - label: I have checked the documentation and README
+          required: true
+        - label: I have tried basic troubleshooting steps
+          required: true
+
+  - type: dropdown
+    id: question-category
+    attributes:
+      label: 📂 Question Category
+      description: What type of question is this?
+      options:
+        - Installation - Setup and installation issues
+        - Usage - How to use features
+        - Troubleshooting - Something isn't working as expected
+        - Configuration - Settings and preferences
+        - Mermaid Syntax - Help with diagram syntax
+        - Performance - Speed and optimization questions
+        - Compatibility - Platform or software compatibility
+        - Development - Contributing and development setup
+        - Other - General questions
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: ❓ Your Question
+      description: What would you like to know?
+      placeholder: "Please describe your question in detail..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 🔍 Context
+      description: Provide context about what you're trying to achieve
+      placeholder: |
+        - What are you trying to accomplish?
+        - What have you tried so far?
+        - What documentation have you consulted?
+
+  - type: dropdown
+    id: operating-system
+    attributes:
+      label: 🖥️ Operating System
+      description: What operating system are you using?
+      options:
+        - Windows 11
+        - Windows 10
+        - macOS 14 (Sonoma)
+        - macOS 13 (Ventura)
+        - macOS 12 (Monterey)
+        - Ubuntu 22.04
+        - Ubuntu 20.04
+        - Fedora 38+
+        - Arch Linux
+        - Other Linux
+        - Other
+        - Not applicable
+
+  - type: input
+    id: app-version
+    attributes:
+      label: 📱 App Version
+      description: Which version of Mermaid GUI v2.0 are you using?
+      placeholder: "e.g., v2.0.1"
+
+  - type: textarea
+    id: what-tried
+    attributes:
+      label: 🔧 What Have You Tried?
+      description: What steps have you already taken to solve this?
+      placeholder: |
+        - Documentation sections you've read
+        - Commands you've run
+        - Solutions you've attempted
+
+  - type: textarea
+    id: expected-outcome
+    attributes:
+      label: 🎯 Expected Outcome
+      description: What outcome are you hoping to achieve?
+      placeholder: "Describe what you want to happen..."
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: 📝 Additional Information
+      description: Any other information that might be helpful
+      placeholder: |
+        - Error messages
+        - Screenshots
+        - Related workflows
+        - Specific use cases
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: ⏱️ Urgency
+      description: How urgent is this question for you?
+      options:
+        - Low - Just curious
+        - Medium - Affects my workflow
+        - High - Blocking important work
+        - Critical - Urgent business need
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: help-others
+    attributes:
+      label: 🤝 Community
+      description: How can you help others with similar questions?
+      options:
+        - label: I'm willing to help update documentation based on the answer
+        - label: I can share my solution if I find one
+        - label: I'd like to help answer similar questions from others

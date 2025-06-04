@@ -1,0 +1,205 @@
+name: ✨ Feature Request
+description: Suggest a new feature or improvement for Mermaid GUI v2.0
+title: "[FEATURE] "
+labels: ["enhancement", "needs-triage"]
+assignees: ["baris-sinapli"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting a new feature! ✨
+        
+        Your ideas help us make Mermaid GUI v2.0 better for everyone.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm you have completed the following
+      options:
+        - label: I have searched existing issues and feature requests
+          required: true
+        - label: I have checked the roadmap and documentation
+          required: true
+        - label: This feature aligns with the project's goals
+          required: true
+
+  - type: textarea
+    id: feature-summary
+    attributes:
+      label: 🎯 Feature Summary
+      description: A brief, clear summary of the feature you'd like to see
+      placeholder: "One sentence description of the feature..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-description
+    attributes:
+      label: 🔍 Problem Description
+      description: What problem does this feature solve? What's the current pain point?
+      placeholder: |
+        - What workflow is currently difficult or impossible?
+        - What are users currently struggling with?
+        - How does this impact productivity?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: 💡 Proposed Solution
+      description: Describe your ideal solution in detail
+      placeholder: |
+        - How would this feature work?
+        - What would the user interface look like?
+        - How would users interact with it?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: feature-category
+    attributes:
+      label: 📂 Feature Category
+      description: Which area of the application does this feature relate to?
+      options:
+        - Editor - Code editing improvements
+        - Preview - Live preview enhancements
+        - Export - Diagram generation and export
+        - UI/UX - User interface improvements
+        - File Management - File operations and organization
+        - Performance - Speed and efficiency improvements
+        - Templates - Diagram templates and examples
+        - Batch Processing - Multi-file operations
+        - Settings - Configuration and preferences
+        - Accessibility - Making the app more accessible
+        - Integration - Third-party tool integration
+        - Other - Please specify in description
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 🚨 Priority
+      description: How important is this feature to you?
+      options:
+        - Low - Nice to have
+        - Medium - Would be helpful
+        - High - Important for workflow
+        - Critical - Essential for adoption
+    validations:
+      required: true
+
+  - type: textarea
+    id: user-stories
+    attributes:
+      label: 👤 User Stories
+      description: Describe how different users would benefit from this feature
+      placeholder: |
+        As a [type of user], I want [goal] so that [benefit].
+        
+        Example:
+        - As a developer, I want keyboard shortcuts for common actions so that I can work more efficiently
+        - As a technical writer, I want template categories so that I can quickly find relevant diagram types
+      value: |
+        - As a [user type], I want [feature] so that [benefit]
+        - 
+
+  - type: textarea
+    id: alternatives-considered
+    attributes:
+      label: 🔄 Alternatives Considered
+      description: What alternative solutions or workarounds have you considered?
+      placeholder: |
+        - Current workarounds you're using
+        - Other tools that have this feature
+        - Different approaches to solving the same problem
+
+  - type: textarea
+    id: mockups-examples
+    attributes:
+      label: 🎨 Mockups/Examples
+      description: Visual examples, mockups, or references from other applications
+      placeholder: |
+        - Screenshots from other tools
+        - Hand-drawn mockups
+        - Links to similar features
+        - ASCII art diagrams
+
+  - type: textarea
+    id: technical-considerations
+    attributes:
+      label: ⚙️ Technical Considerations
+      description: Any technical aspects or implementation ideas you'd like to share
+      placeholder: |
+        - Potential implementation approach
+        - Technologies that could be used
+        - Compatibility concerns
+        - Performance implications
+
+  - type: dropdown
+    id: complexity-estimate
+    attributes:
+      label: 🎯 Complexity Estimate
+      description: How complex do you think this feature would be to implement?
+      options:
+        - Simple - Small UI change or minor feature
+        - Medium - New functionality with moderate complexity
+        - Complex - Major feature requiring significant changes
+        - Very Complex - Large architectural changes needed
+        - Unknown - Not sure about implementation complexity
+
+  - type: checkboxes
+    id: target-users
+    attributes:
+      label: 👥 Target Users
+      description: Who would benefit most from this feature?
+      options:
+        - Software developers
+        - Technical writers
+        - Product managers
+        - Students
+        - Designers
+        - Data analysts
+        - Business users
+        - Enterprise users
+        - All users
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: ✅ Acceptance Criteria
+      description: How would you know this feature is complete and working correctly?
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+        - [ ] Criterion 3
+      value: |
+        - [ ] 
+        - [ ] 
+        - [ ] 
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 📝 Additional Context
+      description: Any other information that would help us understand this request
+      placeholder: |
+        - Related issues or requests
+        - Industry standards or best practices
+        - User feedback you've received
+        - Business justification
+
+  - type: checkboxes
+    id: willingness-to-contribute
+    attributes:
+      label: 🤝 Contribution
+      description: Are you willing to help implement this feature?
+      options:
+        - label: I'm willing to implement this feature myself
+        - label: I can help with design and specification
+        - label: I can help with testing and feedback
+        - label: I can provide user requirements and use cases
+        - label: I'd like to sponsor development of this feature

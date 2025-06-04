@@ -1,0 +1,164 @@
+name: 🐛 Bug Report
+description: Report a bug to help us improve Mermaid GUI v2.0
+title: "[BUG] "
+labels: ["bug", "needs-triage"]
+assignees: ["baris-sinapli"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report a bug! 🐛
+        
+        Please fill out this form as completely as possible to help us understand and fix the issue.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm you have completed the following
+      options:
+        - label: I have searched existing issues to avoid duplicates
+          required: true
+        - label: I have tested with the latest version
+          required: true
+        - label: I have checked the documentation
+          required: true
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: 🐛 Bug Description
+      description: A clear and concise description of what the bug is
+      placeholder: "Describe what happened..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: 🔄 Steps to Reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Enter '...'
+        4. See error
+      value: |
+        1. 
+        2. 
+        3. 
+        4. 
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: ✅ Expected Behavior
+      description: What you expected to happen
+      placeholder: "Describe what should have happened..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: ❌ Actual Behavior
+      description: What actually happened
+      placeholder: "Describe what actually happened..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: operating-system
+    attributes:
+      label: 🖥️ Operating System
+      description: What operating system are you using?
+      options:
+        - Windows 11
+        - Windows 10
+        - macOS 14 (Sonoma)
+        - macOS 13 (Ventura)
+        - macOS 12 (Monterey)
+        - Ubuntu 22.04
+        - Ubuntu 20.04
+        - Fedora 38+
+        - Arch Linux
+        - Other Linux (specify in additional context)
+        - Other (specify in additional context)
+    validations:
+      required: true
+
+  - type: input
+    id: app-version
+    attributes:
+      label: 📱 App Version
+      description: Which version of Mermaid GUI v2.0 are you using?
+      placeholder: "e.g., v2.0.1"
+    validations:
+      required: true
+
+  - type: input
+    id: mmdc-version
+    attributes:
+      label: 🔧 mmdc Version
+      description: What version of Mermaid CLI is installed?
+      placeholder: "Run: mmdc --version"
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 🚨 Severity
+      description: How severe is this bug?
+      options:
+        - Low - Minor inconvenience
+        - Medium - Affects functionality
+        - High - Blocks important features
+        - Critical - App crashes or data loss
+    validations:
+      required: true
+
+  - type: textarea
+    id: error-messages
+    attributes:
+      label: 📋 Error Messages/Logs
+      description: Copy and paste any error messages or logs
+      placeholder: "Paste error messages here..."
+      render: text
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 📸 Screenshots
+      description: If applicable, add screenshots to help explain your problem
+      placeholder: "Drag and drop images here or paste image URLs..."
+
+  - type: textarea
+    id: mermaid-code
+    attributes:
+      label: 🌊 Mermaid Code (if applicable)
+      description: If the bug is related to specific Mermaid syntax, include it here
+      placeholder: "Paste your Mermaid code here..."
+      render: mermaid
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 📝 Additional Context
+      description: Add any other context about the problem here
+      placeholder: |
+        - Browser versions (if applicable)
+        - Hardware specs
+        - Network conditions
+        - Other relevant information
+
+  - type: checkboxes
+    id: willingness-to-help
+    attributes:
+      label: 🤝 Contribution
+      description: Are you willing to help fix this issue?
+      options:
+        - label: I'm willing to submit a pull request to fix this bug
+        - label: I can help test the fix
+        - label: I can provide more information if needed

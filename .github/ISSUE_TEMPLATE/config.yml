@@ -1,0 +1,17 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Documentation
+    url: https://github.com/baris-sinapli/mermaid-diagram/blob/main/README.md
+    about: Check our comprehensive documentation and user guide
+  
+  - name: 💬 GitHub Discussions
+    url: https://github.com/baris-sinapli/mermaid-diagram/discussions
+    about: Ask questions, share ideas, and discuss with the community
+  
+  - name: 🌊 Mermaid.js Documentation
+    url: https://mermaid.js.org/
+    about: Official Mermaid syntax documentation and examples
+  
+  - name: 🔒 Security Issues
+    url: https://github.com/baris-sinapli/mermaid-diagram/security/policy
+    about: Report security vulnerabilities privately
