@@ -110,4 +110,27 @@
       opacity: 0.5;
     }
   }
+
+  :global(.toolbar button) {
+    transition: background-color 0.2s ease, transform 0.15s ease;
+    cursor: pointer;
+  }
+
+  :global(.toolbar button:hover:not(:disabled)) {
+    background-color: var(--accent);
+    transform: translateY(-1px);
+    color: var(--accent-foreground);
+  }
+
+  :global(.toolbar button.unsaved:hover:not(:disabled)) {
+    background-color: var(--warning);
+    color: var(--warning-foreground);
+    transform: translateY(-1px);
+  }
+
+  :global(.toolbar button:disabled) {
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none !important;
+  }
 </style>
